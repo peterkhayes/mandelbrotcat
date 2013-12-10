@@ -1,3 +1,8 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
 .visualizer {
   background-image: url('img/grumpycat.jpg');
   background-size: cover;
@@ -9,11 +14,55 @@
 
 .square {
   display:inline-block;
-  width: 32px;
-  height: 32px;
+  width:2.5%;
+  height:0;
+  padding-bottom:2.5%;
+  overflow: hidden;
   margin:0;
   cursor: pointer;
-  overflow: hidden;
+}
+
+.row {
+  width: 1280px;
+}
+
+.nav {
+  position: fixed;
+  cursor: pointer;
+}
+
+.nav:hover {
+  opacity: 0.5;
+}
+
+.nav[direction=up] {
+  top: 0;
+  left: 50%;
+  margin-left: -25px;
+}
+
+.nav[direction=down] {
+  bottom: 0;
+  left: 50%;
+  margin-left: -25px;
+}
+
+.nav[direction=left] {
+  left: 0;
+  top: 50%;
+  margin-top: -25px;
+}
+
+.nav[direction=right] {
+  right: 0;
+  top: 50%;
+  margin-top: -25px;
+}
+
+.zoomout {
+  right: 0;
+  bottom: 0;
+  display:none;
 }
 
 .square img {

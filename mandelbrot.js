@@ -38,7 +38,6 @@ var mandelbrot = function(a, b) {
 };
 
 var makeSquare = function(type, x, y) {
-  console.log(type);
   var square = $('<div class="square' + (type === ITERATION_LIMIT ? ' black' : '')  + '"></div>');
   if (type < ITERATION_LIMIT) {
     var img = $("<img src='img/"+type+".gif'>");
@@ -51,32 +50,82 @@ var makeSquare = function(type, x, y) {
 
 var render = function() {
   calcTime = 0;
-  $('.visualizer').html('');
+  var vis = $('.visualizer');
+  vis.html('');
   var xStep = (MAXX - MINX)/40;
   var yStep = (MAXY - MINY)/30;
 
   for (var i = 0; i < 30; i++) {
-    if (i > 0) $('.visualizer').append($('<br>'));
+    row = $('<div class="row"></div>');
     for (var j = 0; j < 40; j++) {
       var x = MINX + j*xStep;
       var y = MINY + i*yStep;
       var iters = (mandelbrot(x,y));
-      $('.visualizer').append(makeSquare(iters, x, y));
+      row.append(makeSquare(iters, x, y));
     }
+    vis.append(row);
   }
-  console.log(calcTime);
+
 };
 
 var zoomIn = function(x, y) {
   var xDist = (MAXX - MINX)/2;
   var yDist = (MAXY - MINY)/2;
-  console.log(xDist, yDist);
   MAXX = x + xDist/2;
   MINX = x - xDist/2;
   MAXY = y + yDist/2;
   MINY = y - yDist/2;
-  console.log(MINX, MAXX, MINY, MAXY);
   ZOOM_FACTOR++;
+  if (ZOOM_FACTOR > 1) {
+    $('.zoomout').show();
+  } else {
+    $('.zoomout').hide();
+  }
+  render();
+};
+
+var zoomOut = function() {
+  var xDist = (MAXX - MINX)/2;
+  var yDist = (MAXY - MINY)/2;
+  MAXX = MAXX + xDist;
+  MINX = MINX - xDist;
+  MAXY = MAXY + yDist;
+  MINY = MINY - yDist;
+  ZOOM_FACTOR--;
+  if (ZOOM_FACTOR > 1) {
+    $('.zoomout').show();
+  } else {
+    $('.zoomout').hide();
+  }
+  render();
+};
+
+var move = function(direction) {
+  var x = 0;
+  var y = 0;
+  if (direction === 'up') {
+    y = -1;
+  } else if (direction === 'down') {
+    y = 1;
+  } else if (direction === 'right') {
+    x = 1;
+  } else if (direction === 'left') {
+    x = -1;
+  }
+
+  console.log(MINX, MAXX, MINY, MAXY);
+
+  var quarter_width = (MAXX - MINX)/4;
+  var quarter_height = (MAXY - MINY)/4;
+  MINX = MINX + x*quarter_width;
+  MAXX = MAXX + x*quarter_width;
+  MINY = MINY + y*quarter_height;
+  MAXY = MAXY + y*quarter_height;
+
+  console.log(MINX, MAXX, MINY, MAXY);
+  console.log("---");
+
+
   render();
 };
 
@@ -87,5 +136,13 @@ $(document).on('ready', function() {
     var x = parseFloat($(e.target).attr("x"));
     var y = parseFloat($(e.target).attr("y"));
     zoomIn(x, y);
+  });
+
+  $(document).on('click', '.zoomout', function(e) {
+    zoomOut();
+  });
+
+  $(document).on('click', '.nav', function(e) {
+    move($(e.target).attr('direction'));
   });
 });
