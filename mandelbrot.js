@@ -137,6 +137,10 @@ $(document).on('ready', function() {
     $('.zoomout').hide();
   });
 
+  $(document).on('click', 'a', function(e) {
+    $(e).stopPropagation();
+  });
+
   $(window).resize(function() {
     render();
   });
