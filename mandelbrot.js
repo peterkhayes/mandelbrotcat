@@ -133,7 +133,7 @@ var move = function(direction) {
 var flashEyes = function() {
   var eyes = $('.eyes');
   eyes.animate({
-    'opacity': 0.1
+    'opacity': 0.15
   }, 500, 'swing', function() {
       eyes.animate({
       'opacity': 0
