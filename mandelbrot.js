@@ -47,7 +47,7 @@ var makeSquare = function(type, x, y) {
 var render = function() {
   calcTime = 0;
   var vis = $('.visualizer');
-  $('.visualizer, .nav').hide();
+  vis.hide();
   $('.square').remove();
 
   var xCount = $(window).width()/32;
@@ -66,7 +66,7 @@ var render = function() {
     }
     vis.append(row);
   }
-  $('.visualizer, .nav').show();
+  vis.show();
 };
 
 var zoomIn = function(x, y) {
@@ -158,6 +158,10 @@ $(document).on('ready', function() {
 
   $(document).on('click', '.nav', function(e) {
     move($(e.target).attr('direction'));
+  });
+
+  $(window).resize(function() {
+    render();
   });
 
   setTimeout(flashEyes, Math.random()*15000);
