@@ -1,12 +1,9 @@
 var DIVERGE_LIMIT = 4;
 var ITERATION_LIMIT = 16;
 var ZOOM_FACTOR = 1;
-var MINX = -2.2;
-var MAXX = 1.1;
-var MINY = -0.8;
-var MAXY = 0.8;
-
-var calcTime = 0;
+var X = -0.5;
+var Y = 0;
+var STEP = 0.1;
 
 var mandelbrot = function(a, b) {
   var time = new Date();
@@ -18,7 +15,7 @@ var mandelbrot = function(a, b) {
   var zB2 = 0;
   for (var i = 0; i < ZOOM_FACTOR*ITERATION_LIMIT; i++) {
     if (zA2 + zB2 > DIVERGE_LIMIT*ZOOM_FACTOR*ZOOM_FACTOR) {
-      return Math.floor(i/ZOOM_FACTOR);
+      return Math.floor(i/ZOOM_FACTOR) || ITERATION_LIMIT;
     } else {
       var tempZA = zA2 - zB2 + a;
       zA += zA;
@@ -47,35 +44,27 @@ var makeSquare = function(type, x, y) {
 var render = function() {
   calcTime = 0;
   var vis = $('.visualizer');
-  vis.hide();
-  $('.square').remove();
+  $('.row').remove();
 
-  var xCount = $(window).width()/32;
-  var yCount = $(window).height()/32;
+  var halfXCount = ~~($(window).width()/64);
+  var halfYCount = ~~($(window).height()/64);
 
-  var xStep = (MAXX - MINX)/xCount;
-  var yStep = (MAXY - MINY)/yCount;
-
-  for (var i = 0; i < yCount + 1; i++) {
+  for (var i = -1*halfYCount - 1; i < halfYCount + 1; i++) {
     row = $('<div class="row"></div>');
-    for (var j = 0; j < xCount; j++) {
-      var x = MINX + j*xStep;
-      var y = MINY + i*yStep;
-      var iters = (mandelbrot(x,y));
-      row.append(makeSquare(iters, x, y));
+    for (var j = -1*halfXCount - 1; j < halfXCount + 1; j++) {
+      var square_x = X + j*STEP;
+      var square_y = Y + i*STEP;
+      var iters = (mandelbrot(square_x,square_y));
+      row.append(makeSquare(iters, square_x, square_y));
     }
     vis.append(row);
   }
-  vis.show();
 };
 
-var zoomIn = function(x, y) {
-  var xDist = (MAXX - MINX)/2;
-  var yDist = (MAXY - MINY)/2;
-  MAXX = x + xDist/2;
-  MINX = x - xDist/2;
-  MAXY = y + yDist/2;
-  MINY = y - yDist/2;
+var zoomIn = function(click_x, click_y) {
+  X = click_x;
+  Y = click_y;
+  STEP /= 2;
   ZOOM_FACTOR++;
   if (ZOOM_FACTOR > 1) {
     $('.zoomout').show();
@@ -86,12 +75,7 @@ var zoomIn = function(x, y) {
 };
 
 var zoomOut = function() {
-  var xDist = (MAXX - MINX)/2;
-  var yDist = (MAXY - MINY)/2;
-  MAXX = MAXX + xDist;
-  MINX = MINX - xDist;
-  MAXY = MAXY + yDist;
-  MINY = MINY - yDist;
+  STEP *= 2;
   ZOOM_FACTOR--;
   if (ZOOM_FACTOR > 1) {
     $('.zoomout').show();
@@ -102,30 +86,15 @@ var zoomOut = function() {
 };
 
 var move = function(direction) {
-  var x = 0;
-  var y = 0;
   if (direction === 'up') {
-    y = -1;
+    Y -= 5*STEP;
   } else if (direction === 'down') {
-    y = 1;
+    Y += 5*STEP;
   } else if (direction === 'right') {
-    x = 1;
+    X += 5*STEP;
   } else if (direction === 'left') {
-    x = -1;
+    X -= 5*STEP;
   }
-
-  console.log(MINX, MAXX, MINY, MAXY);
-
-  var quarter_width = (MAXX - MINX)/4;
-  var quarter_height = (MAXY - MINY)/4;
-  MINX = MINX + x*quarter_width;
-  MAXX = MAXX + x*quarter_width;
-  MINY = MINY + y*quarter_height;
-  MAXY = MAXY + y*quarter_height;
-
-  console.log(MINX, MAXX, MINY, MAXY);
-  console.log("---");
-
 
   render();
 };
