@@ -22,6 +22,12 @@ body {
   opacity: 0;
 }
 
+.row {
+  width: 200%;
+  height: 32px;
+  overflow: hidden;
+}
+
 .square {
   display:inline-block;
   width:32px;
