@@ -2,13 +2,9 @@ var DIVERGE_LIMIT = 4;
 var ITERATION_LIMIT = 16;
 var ZOOM_FACTOR = 1;
 var MINX = -2.2;
-var MAXX = 0.8;
-var MINY = -1;
-var MAXY = 1;
-var START_MINX = -2.2;
-var START_MAXX = 0.8;
-var START_MINY = -1;
-var START_MAXY = 1;
+var MAXX = 1.1;
+var MINY = -0.8;
+var MAXY = 0.8;
 
 var calcTime = 0;
 
@@ -51,13 +47,18 @@ var makeSquare = function(type, x, y) {
 var render = function() {
   calcTime = 0;
   var vis = $('.visualizer');
-  vis.html('');
-  var xStep = (MAXX - MINX)/40;
-  var yStep = (MAXY - MINY)/30;
+  $('.visualizer, .nav').hide();
+  $('.square').remove();
 
-  for (var i = 0; i < 30; i++) {
+  var xCount = $(window).width()/32;
+  var yCount = $(window).height()/32;
+
+  var xStep = (MAXX - MINX)/xCount;
+  var yStep = (MAXY - MINY)/yCount;
+
+  for (var i = 0; i < yCount + 1; i++) {
     row = $('<div class="row"></div>');
-    for (var j = 0; j < 40; j++) {
+    for (var j = 0; j < xCount; j++) {
       var x = MINX + j*xStep;
       var y = MINY + i*yStep;
       var iters = (mandelbrot(x,y));
@@ -65,7 +66,7 @@ var render = function() {
     }
     vis.append(row);
   }
-
+  $('.visualizer, .nav').show();
 };
 
 var zoomIn = function(x, y) {
@@ -129,6 +130,19 @@ var move = function(direction) {
   render();
 };
 
+var flashEyes = function() {
+  var eyes = $('.eyes');
+  eyes.animate({
+    'opacity': 0.1
+  }, 500, 'swing', function() {
+      eyes.animate({
+      'opacity': 0
+    }, 500, 'swing', function() {
+      setTimeout(flashEyes, Math.random()*15000);
+    });
+  });
+};
+
 $(document).on('ready', function() {
   render();
 
@@ -145,4 +159,6 @@ $(document).on('ready', function() {
   $(document).on('click', '.nav', function(e) {
     move($(e.target).attr('direction'));
   });
+
+  setTimeout(flashEyes, Math.random()*15000);
 });
