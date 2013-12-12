@@ -15,7 +15,7 @@ var mandelbrot = function(a, b) {
   var zB2 = 0;
   for (var i = 0; i < ZOOM_FACTOR*ITERATION_LIMIT; i++) {
     if (zA2 + zB2 > DIVERGE_LIMIT*ZOOM_FACTOR*ZOOM_FACTOR) {
-      return Math.floor(i/ZOOM_FACTOR) || ITERATION_LIMIT;
+      return ~~(i/ZOOM_FACTOR) || ITERATION_LIMIT;
     } else {
       var tempZA = zA2 - zB2 + a;
       zA += zA;
@@ -48,6 +48,8 @@ var render = function() {
 
   var halfXCount = ~~($(window).width()/64);
   var halfYCount = ~~($(window).height()/64);
+
+  // var rotate = halfYCount > halfXCount;
 
   for (var i = -1*halfYCount - 1; i < halfYCount + 1; i++) {
     row = $('<div class="row"></div>');
@@ -127,6 +129,12 @@ $(document).on('ready', function() {
 
   $(document).on('click', '.nav', function(e) {
     move($(e.target).attr('direction'));
+  });
+
+  $(document).on('click', '.explanation', function() {
+    $('.explanation').hide();
+    $('.nav').show();
+    $('.zoomout').hide();
   });
 
   $(window).resize(function() {
