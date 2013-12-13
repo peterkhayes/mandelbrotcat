@@ -158,3 +158,8 @@ body {
   left: 10px;
   bottom: 10px;
 }
+
+.thumb {
+  position: absolute;
+  top: -2000px;
+}
