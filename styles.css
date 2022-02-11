@@ -7,15 +7,15 @@ body {
   position: fixed;
   width: 100%;
   height: 100%;
-  background-color: #DDD;
+  background-color: #ddd;
   cursor: pointer;
   opacity: 0.9;
 }
 
-.explanation .text{
+.explanation .text {
   margin: auto;
   text-align: center;
-  width:75%;
+  width: 75%;
   border-radius: 20px;
   color: #00a;
   font-family: verdana sans-serif;
@@ -37,7 +37,6 @@ body {
 }
 
 @media only screen and (min-width: 761px) {
-
   .explanation .text h1 {
     font-size: 50px;
   }
@@ -49,11 +48,9 @@ body {
   .explanation .text img {
     max-height: 200px;
   }
-
 }
 
 @media only screen and (max-width: 480px) {
-
   .explanation .text h1 {
     font-size: 24px;
   }
@@ -65,20 +62,20 @@ body {
   .explanation .text img {
     max-height: 150px;
   }
-
 }
 .visualizer {
   min-width: 105%;
-  margin:0;
+  margin: 0;
   position: fixed;
   padding: 0;
 }
 
-.eyes, .bg {
-  position:absolute;
-  width:100%;
-  height:100%;
-  pointer-events:none;
+.eyes,
+.bg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
   z-index: -1;
 }
 
@@ -88,22 +85,22 @@ body {
 
 .row {
   width: 200%;
-  height: 32px;
+  height: 24px;
   overflow: hidden;
 }
 
 .square {
-  display:inline-block;
-  width:32px;
-  height:32px;
+  display: inline-block;
+  width: 24px;
+  height: 24px;
   overflow: hidden;
   background-color: transparent;
-  margin:0;
+  margin: 0;
   cursor: pointer;
 }
 
 .nav {
-  display:none;
+  display: none;
   position: fixed;
   cursor: pointer;
 }
@@ -112,25 +109,25 @@ body {
   opacity: 0.5;
 }
 
-.nav[direction=up] {
+.nav[direction="up"] {
   top: 0;
   left: 50%;
   margin-left: -25px;
 }
 
-.nav[direction=down] {
+.nav[direction="down"] {
   bottom: 0;
   left: 50%;
   margin-left: -25px;
 }
 
-.nav[direction=left] {
+.nav[direction="left"] {
   left: 0;
   top: 50%;
   margin-top: -25px;
 }
 
-.nav[direction=right] {
+.nav[direction="right"] {
   right: 0;
   top: 50%;
   margin-top: -25px;
@@ -139,7 +136,7 @@ body {
 .zoomout {
   right: 0;
   bottom: 0;
-  display:none;
+  display: none;
 }
 
 .square img {
@@ -149,12 +146,12 @@ body {
 }
 
 .square.black {
-  background-color:black;
-  opacity:0.5;
+  background-color: black;
+  opacity: 0.5;
 }
 
 .twitter-share-button {
-  position:fixed;
+  position: fixed;
   left: 10px;
   bottom: 10px;
 }
